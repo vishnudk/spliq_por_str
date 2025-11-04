@@ -6,11 +6,28 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="logo-div">
-        <div>   
+        <!-- <div>   
                 <img src="favicon_io_list/apple-touch-icon.png" alt="My Application Logo">
                 <h1>Welcome to Settle</h1>
-        </div>
-    </div>
+                 <input type="text" id="username" name="username"><br><br>
+                 <mat-slide-toggle>Toggle me!</mat-slide-toggle>
+        </div> -->
+        <!-- <mat-card appearance="logo-div">
+            <div class="content">
+                <h2>Filled Container Shape</h2>
+                <p>This is an example of a filled container shape component.</p>
+            </div>
+        </mat-card appearance> -->
+        <mat-card id="logo-div">
+            <mat-card-header>
+              <mat-card-title>Welcome to Settle</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="favicon_io_list/apple-touch-icon.png" alt="My Application Logo">
+            <mat-card-content>
+              <p>
+                This is an example of a filled container shape component.
+              </p>
+            </mat-card-content>
+          </mat-card>
 </body>
 </html>
