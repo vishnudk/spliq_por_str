@@ -1,0 +1,34 @@
+.login-card {
+  max-width: 400px;
+  display: flex;
+  /* Centers the child horizontally */
+  justify-content: center;
+  /* Centers the child vertically */
+  align-items: center;
+}
+html, body {
+  /* Ensure the container takes up the full screen height */
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* Centers the child horizontally */
+  justify-content: center;
+  /* Centers the child vertically */
+  align-items: center;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+input 
+{
+    width: 100%;
+}
+
+img {
+  width: 20%;
+  padding-top: 2%;
+  height: auto; /* Height adjusts proportionally to the width */
+}
