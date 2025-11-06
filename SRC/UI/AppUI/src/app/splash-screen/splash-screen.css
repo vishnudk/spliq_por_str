@@ -1,0 +1,38 @@
+
+html, body {
+  /* Ensure the container takes up the full screen height */
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* Centers the child horizontally */
+  justify-content: center;
+  /* Centers the child vertically */
+  align-items: center;
+  background-color: #120B42;
+}
+
+#settle_logo
+{
+    width: 60%;
+    height: auto; /* Height adjusts proportionally to the width */
+}
+
+.splash-container
+{
+  max-width: 400px;
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 30px;              /* space between elements */
+  align-items: stretch;
+  /* Centers the child horizontally */
+  justify-content: center;
+  /* Centers the child vertically */
+  align-items: center;
+}
+
+#tag-line
+{
+    color: white;
+    font-size: 1em;
+}

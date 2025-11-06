@@ -7,32 +7,34 @@
 </head>
 <body>
     <mat-card class="login-card">
-       <img mat-card-image  src="\icons\profile.png" alt="Company logo!!">
+       <img mat-card-image  id="settle_logo" src="\icons\settle_title_image_black.png" alt="Company logo!!">
       <mat-card-header>
-          <mat-card-title>Login to Settle</mat-card-title>
+          <mat-card-title>Welcome Back!</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <br>
         <br>
 
-      <form>
-    <mat-form-field appearance="outline">
-      <mat-label>User Name</mat-label>
+      <form class="user-input-form">
+    <mat-form-field appearance="outline" class="userDataInputs">
+      <mat-label>you@example.com</mat-label>
+      <mat-icon matPrefix>mail</mat-icon>
       <input matInput [(ngModel)]="username" name = "username" placeholder="">
     </mat-form-field>
     
 
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
+    <mat-form-field appearance="outline" class="userDataInputs">
+      <mat-label>**********</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
       <input matInput [(ngModel)]="password" name = "password" placeholder="" type="password">
     </mat-form-field>
+        <a routerLink="/login">Forgot Password?</a>
 
   </form>
       </mat-card-content>
       <mat-card-actions>
-          <button matButton="filled" (click)="onLogin()">Login</button>
+        <button matButton="filled" id="login_button" (click)="onLogin()">Login</button>
       </mat-card-actions>
-
       <br>
 </mat-card>
 </body>

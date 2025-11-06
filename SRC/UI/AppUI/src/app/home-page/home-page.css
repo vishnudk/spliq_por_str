@@ -1,0 +1,16 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* No scrollbars */
+  background-color: #fff;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full device height */
+  width: 100vw;  /* Full device width */
+  overflow: hidden;
+}
