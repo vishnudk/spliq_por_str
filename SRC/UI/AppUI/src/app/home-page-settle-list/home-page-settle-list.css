@@ -1,0 +1,21 @@
+.settle_list_div {
+  margin-top: 20px;
+  height: 100vh;            /* or a smaller fixed height */
+  width: 100%;
+  overflow-y: auto;         /* enables vertical scroll */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Optional scrollbar style */
+.settle_list_div::-webkit-scrollbar {
+  width: 6px;
+}
+.settle_list_div::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
