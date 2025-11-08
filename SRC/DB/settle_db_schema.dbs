@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="settle_db_schema" database="MySql" id="311f8bce-cb20-4a88-9348-ecf974b197b0" >
+	<schema name="settle_schema" >
+		<table name="group_data" prior="gro" >
+			<column name="group_id" type="INT" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="group_name" type="TEXT" length="100" mandatory="y" />
+			<column name="date_of_creation" type="DATE" >
+				<column_options><![CDATA[ON UPDATE CURRENT_TIMESTAMP]]></column_options>
+			</column>
+			<index name="pk_group_data" unique="PRIMARY_KEY" >
+				<column name="group_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="transaction_data" prior="transaction_t" >
+			<column name="transaction_id" type="INT" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="amount" type="INT" mandatory="y" />
+			<column name="paid_by" type="INT" mandatory="y" />
+			<column name="group_id" type="INT" />
+			<column name="created_date" type="DATE" />
+			<index name="pk_transaction_data" unique="PRIMARY_KEY" >
+				<column name="transaction_id" />
+			</index>
+			<fk name="fk_transaction_data_user_data" to_schema="settle_schema" to_table="user_data" delete_action="cascade" >
+				<fk_column name="paid_by" pk="user_id" />
+			</fk>
+			<fk name="fk_transaction_data_group_data" to_schema="settle_schema" to_table="group_data" >
+				<fk_column name="group_id" pk="group_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="transaction_participation_data" prior="transaction_participation_da" >
+			<column name="transaction_participation_id" type="INT" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="transaction_id" type="INT" mandatory="y" />
+			<column name="user_id" type="INT" mandatory="y" />
+			<column name="owed_amount" type="INT" />
+			<index name="pk_transaction_participation_data" unique="PRIMARY_KEY" >
+				<column name="transaction_participation_id" />
+			</index>
+			<fk name="fk_transaction_participation_data_transaction_data" to_schema="settle_schema" to_table="transaction_data" >
+				<fk_column name="transaction_id" pk="transaction_id" />
+			</fk>
+			<fk name="fk_transaction_participation_data_user_data" to_schema="settle_schema" to_table="user_data" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="user_data" prior="user_data_t" >
+			<column name="user_id" type="INT" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="user_name" type="TEXT" length="100" />
+			<column name="user_email" type="INT" mandatory="y" />
+			<column name="user_password" type="INT" mandatory="y" />
+			<index name="pk_user_data" unique="PRIMARY_KEY" >
+				<column name="user_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="user_group_relation" prior="user_group_relatio" >
+			<column name="user_group_id" type="INT" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="user_id" type="INT" mandatory="y" />
+			<column name="group_id" type="INT" mandatory="y" />
+			<index name="pk_user_group_relation" unique="PRIMARY_KEY" >
+				<column name="user_group_id" />
+			</index>
+			<fk name="fk_user_group_relation_user_data" to_schema="settle_schema" to_table="user_data" delete_action="cascade" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+			<fk name="fk_user_group_relation_group_data" to_schema="settle_schema" to_table="group_data" delete_action="cascade" >
+				<fk_column name="group_id" pk="group_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Default Diagram" id="f8ece427-28f7-4fa4-8978-ae2154d98827" show_relation="columns" >
+		<entity schema="settle_schema" name="user_data" color="C1D8EE" x="57" y="57" />
+		<entity schema="settle_schema" name="user_group_relation" color="C1D8EE" x="266" y="285" />
+		<entity schema="settle_schema" name="transaction_data" color="C1D8EE" x="152" y="494" />
+		<entity schema="settle_schema" name="group_data" color="C1D8EE" x="570" y="304" />
+		<entity schema="settle_schema" name="transaction_participation_data" color="C1D8EE" x="570" y="532" />
+	</layout>
+</project>
