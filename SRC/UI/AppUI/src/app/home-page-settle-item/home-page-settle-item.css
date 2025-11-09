@@ -1,12 +1,12 @@
 mat-card
 {
     display: flex;               /* Make everything align in one row */
-  flex-direction: row;          /* Horizontal layout */
-  align-items: center;          /* Vertically center items */
-  justify-content: flex-start;  /* Align all items to the left */
-  gap: 12px;              
-    margin: 10px;
-    padding: 10px;
+    flex-direction: row;          /* Horizontal layout */
+    align-items: center;          /* Vertically center items */
+    justify-content: flex-start;  /* Align all items to the left */
+    gap: 12px;              
+    margin: 5px;
+    padding: 20px;
     background-color: rgb(252 252 254);
 }
 

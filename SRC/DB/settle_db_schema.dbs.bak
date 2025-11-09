@@ -18,7 +18,7 @@
 			<column name="transaction_id" type="INT" mandatory="y" >
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 			</column>
-			<column name="amount" type="INT" mandatory="y" />
+			<column name="amount" type="DECIMAL" mandatory="y" />
 			<column name="paid_by" type="INT" mandatory="y" />
 			<column name="group_id" type="INT" />
 			<column name="created_date" type="DATE" />
@@ -39,7 +39,7 @@
 			</column>
 			<column name="transaction_id" type="INT" mandatory="y" />
 			<column name="user_id" type="INT" mandatory="y" />
-			<column name="owed_amount" type="INT" />
+			<column name="owed_amount" type="DECIMAL" />
 			<index name="pk_transaction_participation_data" unique="PRIMARY_KEY" >
 				<column name="transaction_participation_id" />
 			</index>
@@ -63,7 +63,7 @@
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
-		<table name="user_group_relation" prior="user_group_relatio" >
+		<table name="user_group_data" prior="user_group_relation" >
 			<column name="user_group_id" type="INT" mandatory="y" >
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 			</column>
@@ -83,9 +83,9 @@
 	</schema>
 	<layout name="Default Diagram" id="f8ece427-28f7-4fa4-8978-ae2154d98827" show_relation="columns" >
 		<entity schema="settle_schema" name="user_data" color="C1D8EE" x="57" y="57" />
-		<entity schema="settle_schema" name="user_group_relation" color="C1D8EE" x="266" y="285" />
-		<entity schema="settle_schema" name="transaction_data" color="C1D8EE" x="152" y="494" />
 		<entity schema="settle_schema" name="group_data" color="C1D8EE" x="570" y="304" />
+		<entity schema="settle_schema" name="user_group_data" color="C1D8EE" x="266" y="285" />
 		<entity schema="settle_schema" name="transaction_participation_data" color="C1D8EE" x="570" y="532" />
+		<entity schema="settle_schema" name="transaction_data" color="C1D8EE" x="152" y="494" />
 	</layout>
 </project>

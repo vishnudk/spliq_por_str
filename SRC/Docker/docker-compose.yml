@@ -1,0 +1,51 @@
+version : "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: settle_database
+    networks:
+      - app-network
+    expose:
+      - "3306"
+    ports:
+      - "8080:3306"
+
+  backend:
+    build:
+      context: ../BL/backend_server
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME: settle_database
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: db
+    volumes:
+      - ../BL/backend_server:/app
+    container_name: backend_server
+    command: python manage.py runserver 0.0.0.0:8000
+    
+    depends_on:
+      - nginx_server
+      - db
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    networks:
+      - app-network
+
+  nginx_server:
+    build:
+      context: ../Infra
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    container_name: nginx_server
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

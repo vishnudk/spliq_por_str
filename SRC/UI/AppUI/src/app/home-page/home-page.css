@@ -4,7 +4,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* No scrollbars */
-  background-color: rgb(253 253 255);
+  background-color: rgb(240, 240, 243);
 }
 
 html {

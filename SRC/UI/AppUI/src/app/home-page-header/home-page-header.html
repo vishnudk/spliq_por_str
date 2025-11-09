@@ -1,8 +1,24 @@
 <div class="app-home-page-header">
     <mat-toolbar>
-  <button matIconButton class="file-icon">
+  <!-- <button matIconButton class="file-icon">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+   <!-- <button matIconButton>
+    <mat-icon>menu</mat-icon>
+  </button> -->
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+   
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+      <button  type="button" matIconButton (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
+  </div>
+
+</mat-drawer-container>
+
     <img mat-card-image  id="settle_logo" src="\icons\settle_title_image_black.png" alt="Company logo!!">
     <button matIconButton class="profile-icon">
     <mat-icon>person</mat-icon>

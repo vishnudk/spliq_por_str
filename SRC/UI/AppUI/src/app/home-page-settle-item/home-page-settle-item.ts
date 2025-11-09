@@ -12,4 +12,8 @@ export class HomePageSettleItem {
  @Input() groupName!: string;
   @Input() totalAmount!: number;
   @Input() currency!: string;
+
+  onSelect() {
+    console.log(`Selected group: ${this.groupName}, Amount: ${this.totalAmount} ${this.currency}`);
+  }
 }

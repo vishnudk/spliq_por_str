@@ -85,7 +85,13 @@
 		<entity schema="settle_schema" name="user_data" color="C1D8EE" x="57" y="57" />
 		<entity schema="settle_schema" name="group_data" color="C1D8EE" x="570" y="304" />
 		<entity schema="settle_schema" name="user_group_data" color="C1D8EE" x="266" y="285" />
-		<entity schema="settle_schema" name="transaction_participation_data" color="C1D8EE" x="570" y="532" />
 		<entity schema="settle_schema" name="transaction_data" color="C1D8EE" x="152" y="494" />
+		<entity schema="settle_schema" name="transaction_participation_data" color="C1D8EE" x="570" y="532" />
+		<script name="transaction_participation_data" id="32783d13-0eab-431d-8ea4-2d76307203c6" language="SQL" >
+			<string><![CDATA[SELECT
+	transaction_participation_id, transaction_id, user_id, owed_amount
+FROM
+	settle_schema.transaction_participation_data a;]]></string>
+		</script>
 	</layout>
 </project>
