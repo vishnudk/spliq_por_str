@@ -32,7 +32,7 @@ DB_NAME = os.getenv("DB_NAME", "backend_db")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.1.3", "localhost","127.0.0.1","172.20.0.1"]
+ALLOWED_HOSTS = ["192.168.1.3", "localhost","127.0.0.1","172.20.0.4"]
 
 
 # Application definition
