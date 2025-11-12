@@ -2,3 +2,5 @@
 
 
 
+System design.
+![App Screenshot](DOCS/SystemDesign/system_design.png)
