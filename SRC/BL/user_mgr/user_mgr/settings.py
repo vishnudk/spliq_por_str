@@ -1,3 +1,4 @@
+import os
 """
 Django settings for user_mgr project.
 
@@ -25,8 +26,13 @@ SECRET_KEY = 'django-insecure-xa8j%6ip_li6&@1e95j9)vqvq60cgb!pab)99pu%e1zkdx1u@+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.3", "localhost","127.0.0.1","172.20.0.4"]
 
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "3306")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "Devmachine123!")
+DB_USER = os.getenv("DB_USER", "root")
+DB_NAME = os.getenv("DB_NAME", "settle_database")
 
 # Application definition
 
@@ -68,7 +74,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'user_mgr.wsgi.application'
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://192.168.1.3",
+    "http://localhost"
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

@@ -33,7 +33,7 @@ export class LoginPage {
     formData.append('username', this.username);
     formData.append('password', this.password);
 
-    fetch('http://192.168.1.3/userManagment/authenticate/', {
+    fetch('http://localhost/userManagment/authenticate/', {
       method: 'POST',
       body: formData
     })

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String
-from user_managment.models import UserCredentials
-from backend_server.settings import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+from user_authentication.models import UserCredentials
+from user_mgr.settings import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 import pymysql
 
 class userDbMgr:
