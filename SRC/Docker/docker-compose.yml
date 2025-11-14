@@ -30,6 +30,8 @@ services:
       resources:
         limits:
           memory: 1G
+    volumes:
+      - user_db_data:/var/lib/mysql
 
   user_mgr:
     build:
@@ -145,6 +147,14 @@ services:
     volumes:
       - ../Infra/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ../Infra/nginx/conf/conf.d:/etc/nginx/conf.d
+
+volumes:
+  user_db_data:
+    driver: local
+  group_db_data:
+    driver: local
+  expense_db_data:
+    driver: local
 networks:
   app-network:
     driver: bridge
