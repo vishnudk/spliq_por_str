@@ -19,3 +19,18 @@ def authenticateUser(request):
             return JsonResponse({'message': 'Login Failed', 'status' : 'failed'}, status=401)
     else:
         returnJsonResponse({'message': 'Login Failed', 'status' : 'failed'}, status=405)
+@csrf_exempt
+def createUser(request):
+    if request.method == 'POST':
+        print("Create User called")
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        
+        # Here you would typically create the user
+        if userCredentialMgr().create_user(username, password, email):
+            return JsonResponse({'message': 'User created successfully', 'status':'success'}, status=201)
+        else:
+            return JsonResponse({'message': 'User creation failed', 'status' : 'failed'}, status=400)
+    else:
+        return JsonResponse({'message': 'User creation failed', 'status' : 'failed'}, status=405)

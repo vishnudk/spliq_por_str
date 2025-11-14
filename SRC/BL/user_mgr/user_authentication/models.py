@@ -9,4 +9,6 @@ class UserCredentials(Base):
     id = Column("iduser_credentials_tbl", Integer, primary_key=True, autoincrement=True)
     username = Column("user_name",String(50), unique=True, nullable=False)
     password = Column("user_password",String(100), nullable=False)
-    userid = Column("user_id",String(50), unique=True, nullable=False)    
+    userid = Column("user_id",String(50), unique=False, nullable=True)
+    userEmail = Column("user_email", String(100), unique=True, nullable=False) 
+
