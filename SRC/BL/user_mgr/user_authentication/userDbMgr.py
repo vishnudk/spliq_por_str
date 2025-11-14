@@ -32,7 +32,7 @@ class userDbMgr:
         return None
     def add_user(self, username, password, email):
         try:
-            new_user = UserCredentials(username=username, password=password, userid = "test", userEmail = email)
+            new_user = UserCredentials(username=username, password=password, userEmail = email)
             self.session.add(new_user)
             self.session.commit()
         except Exception as e:
