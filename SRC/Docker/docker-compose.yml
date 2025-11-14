@@ -41,7 +41,7 @@ services:
       DB_NAME: user_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: db
+      DB_HOST: user_db
     volumes:
       - ../BL/user_mgr:/app
     container_name: user_mgr

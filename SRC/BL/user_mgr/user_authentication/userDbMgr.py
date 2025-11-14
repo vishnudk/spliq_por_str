@@ -25,11 +25,11 @@ class userDbMgr:
         conn.commit()
 
     def get_user_by_username(self, username):
-        # self.add_db_table()
-        user = self.session.query(UserCredentials).filter_by(userid=username).first()
+        user = self.session.query(UserCredentials).filter_by(username=username).first()
         if user:
-            return {'username': user.username, 'password': user.password, 'userid': user.userid}
+            return {'username': user.username, 'password': user.password}
         return None
+        
     def add_user(self, username, password, email):
         try:
             new_user = UserCredentials(username=username, password=password, userEmail = email)
@@ -40,24 +40,3 @@ class userDbMgr:
             self.session.rollback()
             return False
         return True
-
-    def add_db_table(self):
-        conn = pymysql.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
-        )
-        cursor = conn.cursor()
-
-        with open("/SqlScripts/settle_database_user_data.sql", "r") as file:
-            sql_script = file.read()
-
-        for stmt in sql_script.split(";"):
-            stmt = stmt.strip()
-            if stmt:
-                cursor.execute(stmt)
-
-        conn.commit()
-        cursor.close()
-        conn.close()
