@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HomePageInfoPanel } from './home-page-info-panel';
 
 describe('HomePageInfoPanel', () => {

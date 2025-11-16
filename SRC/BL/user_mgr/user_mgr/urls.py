@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from user_authentication import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('userMgrAuth/', include("user_authentication.urls"))
+    path('userMgrAuth/', include("user_authentication.urls")),
+    path('userData/', include("user_data.urls")),
 ]

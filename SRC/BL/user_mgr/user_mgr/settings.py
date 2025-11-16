@@ -32,7 +32,7 @@ DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "Devmachine123!")
 DB_USER = os.getenv("DB_USER", "root")
-DB_NAME = os.getenv("DB_NAME", "settle_database")
+DB_NAME = os.getenv("DB_NAME", "user_mgr")
 
 # Application definition
 
@@ -43,9 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user_core',
+    'user_authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,6 +93,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Password validation

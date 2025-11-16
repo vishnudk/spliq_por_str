@@ -1,8 +1,7 @@
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import create_engine, Column, Integer, String
-from user_authentication.models import UserCredentials
 from user_mgr.settings import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
-from user_authentication.models import Base, UserCredentials
+from user_core.models import UserData, Base
 import pymysql
 
 class userDbMgr:
@@ -25,14 +24,14 @@ class userDbMgr:
         conn.commit()
 
     def get_user_by_username(self, username):
-        user = self.session.query(UserCredentials).filter_by(username=username).first()
+        user = self.session.query(UserData).filter_by(username=username).first()
         if user:
             return {'username': user.username, 'password': user.password}
         return None
         
     def add_user(self, username, password, email):
         try:
-            new_user = UserCredentials(username=username, password=password, userEmail = email)
+            new_user = UserData(username=username, password=password, userEmail = email)
             self.session.add(new_user)
             self.session.commit()
         except Exception as e:
