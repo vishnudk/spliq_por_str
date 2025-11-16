@@ -15,6 +15,10 @@ import { InMemoryCache } from '@apollo/client';
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+// Read runtime environment variables from window.env
+const userMgrHost = 'localhost';
+const userMgrPort = '8000';
+
 function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
   const token = 'my-secret-token'; // usually from a service
   const cloned = req.clone({
@@ -35,7 +39,7 @@ export const appConfig: ApplicationConfig = {
 
       return {
         link: httpLink.create({
-          uri: 'http://localhost:8000/userData/graphql',
+          uri: `http://${userMgrHost}:${userMgrPort}/userData/user_api`,
         }),
         cache: new InMemoryCache(),
       };
