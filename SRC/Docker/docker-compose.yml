@@ -1,37 +1,89 @@
-version : "3.8"
+version: "3.8"
 
 services:
   app_ui:
     build:
       context: ../UI/AppUI
       dockerfile: Dockerfile
-    container_name: app_ui
-    command: sh -c "npm ci && npm run build --prod && npm start"
-    volumes:
-      - ../UI/AppUI:/app
-    expose:
-      - "4200"
+    # command: sh -c "npm ci && npm run build --prod && npm start"
+    # volumes:
+    #   - ../UI/AppUI:/app
     ports:
       - "4200:4200"
     networks:
       - app-network
 
-  # user db and user mgr service
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #     - ES_JAVA_OPTS=-Xms1g -Xmx1g
+  #   ports:
+  #     - "9200:9200"
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 20
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.15.0
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #     - xpack.security.enabled=false
+  #   ports:
+  #     - "5601:5601"
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     elasticsearch:
+  #       condition: service_healthy
+
+  # apm-server:
+  #   image: docker.elastic.co/apm/apm-server:8.15.0
+  #   restart: always
+  #   depends_on:
+  #     elasticsearch:
+  #       condition: service_healthy
+  #     kibana:
+  #       condition: service_started
+  #   ports:
+  #     - "8200:8200"
+  #   networks:
+  #     - app-network
+  #   command: >
+  #     apm-server -e
+  #     -E output.elasticsearch.hosts=["http://elasticsearch:9200"]
+  #     -E setup.kibana.host="http://kibana:5601"
+  #     -E apm-server.host="0.0.0.0:8200"
+
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:8.14.0
+  #   ports:
+  #     - "5044:5044"
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./logstash/pipeline:/usr/share/logstash/pipeline
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - app-network
+
+  # user db and user mgr
   user_db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: user_database
-    networks:
-      - user-network
     expose:
       - "3306"
-    deploy:
-      resources:
-        limits:
-          memory: 1G
     volumes:
       - user_db_data:/var/lib/mysql
+    networks:
+      - user-network
 
   user_mgr:
     build:
@@ -42,35 +94,29 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       DB_HOST: user_db
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ../BL/user_mgr:/app
-    container_name: user_mgr
-    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - nginx_server
       - user_db
     ports:
       - "8000:8000"
-    expose:
-      - "8000"
     networks:
       - user-network
       - app-network
 
-# group db and group mgr service
+  # group db and group mgr
   group_db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: group_database
-    networks:
-      - group-network
     expose:
       - "3306"
-    deploy:
-      resources:
-        limits:
-          memory: 1G
+    volumes:
+      - group_db_data:/var/lib/mysql
+    networks:
+      - group-network
 
   group_mgr:
     build:
@@ -80,35 +126,30 @@ services:
       DB_NAME: group_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: db
+      DB_HOST: group_db
+    command: python manage.py runserver 0.0.0.0:8001
     volumes:
       - ../BL/group_mgr:/app
-    container_name: group_mgr
-    command: python manage.py runserver 0.0.0.0:8001
     depends_on:
-      - nginx_server
       - group_db
     ports:
       - "8001:8001"
-    expose:
-      - "8001"
     networks:
       - group-network
       - app-network
-# expense db and expense mgr service
+
+  # expense db and expense mgr
   expense_db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: expense_database
-    networks:
-      - expense-network
     expose:
       - "3306"
-    deploy:
-      resources:
-        limits:
-          memory: 1G
+    volumes:
+      - expense_db_data:/var/lib/mysql
+    networks:
+      - expense-network
 
   expense_mgr:
     build:
@@ -118,29 +159,24 @@ services:
       DB_NAME: expense_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: db
+      DB_HOST: expense_db
+    command: python manage.py runserver 0.0.0.0:8002
     volumes:
       - ../BL/expense_mgr:/app
-    container_name: expense_mgr
-    command: python manage.py runserver 0.0.0.0:8002
     depends_on:
-      - nginx_server
       - expense_db
     ports:
       - "8002:8002"
-    expose:
-      - "8002"
     networks:
       - expense-network
       - app-network
-# nginx server
+
   nginx_server:
     build:
       context: ../Infra
       dockerfile: Dockerfile
     ports:
       - "80:80"
-    container_name: nginx_server
     networks:
       - app-network
     restart: unless-stopped
@@ -150,17 +186,11 @@ services:
 
 volumes:
   user_db_data:
-    driver: local
   group_db_data:
-    driver: local
   expense_db_data:
-    driver: local
+
 networks:
   app-network:
-    driver: bridge
   user-network:
-    driver: bridge
   group-network:
-    driver: bridge
   expense-network:
-    driver: bridge
