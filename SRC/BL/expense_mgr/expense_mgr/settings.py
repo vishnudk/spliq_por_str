@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "3306")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "Devmachine123!")
+DB_USER = os.getenv("DB_USER", "root")
+DB_NAME = os.getenv("DB_NAME", "expense_mgr")
 
 # Application definition
 
@@ -59,6 +64,7 @@ ELASTIC_APM = {
     'DISABLE_SEND' : False,
     'ENVIRONMENT': 'development',            # dev/stage/prod
      "TRANSPORT_CLASS": "elasticapm.transport.http.AsyncTransport",
+     'TRANSACTIONS_SAMPLE_RATE': 1.0, 
 }
 TEMPLATES = [
     {

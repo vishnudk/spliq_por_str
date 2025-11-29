@@ -69,3 +69,4 @@ Werkzeug
 yarl
 zstandard
 elastic-apm
+djangorestframework
