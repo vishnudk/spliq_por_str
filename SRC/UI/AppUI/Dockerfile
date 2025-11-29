@@ -1,8 +1,23 @@
-FROM node:latest AS build
+# Angular build stage
+FROM --platform=linux/amd64 node:22-alpine AS builder
 WORKDIR /app
+
 COPY package*.json ./
-RUN apt-get update && apt-get install -y dos2unix
-RUN find . -type f -print0 | xargs -0 dos2unix
 RUN npm ci
-COPY . .
-RUN npm run build --configuration production
+
+COPY .z .
+RUN npm run build
+
+# ----------------------- #
+# NGINX runtime
+# ----------------------- #
+FROM --platform=linux/amd64 nginx:1.27-alpine
+
+COPY ../Infra/nginx/conf/nginx.conf /etc/nginx/conf/nginx.conf
+RUN rm -rf /usr/share/nginx/html/*
+
+# IMPORTANT: replace app-ui with actual dist folder name
+COPY --from=builder /app/dist/app-ui/browser /usr/share/nginx/html/
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

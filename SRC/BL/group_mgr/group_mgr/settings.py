@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+      'elasticapm.contrib.django'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     'elasticapm.contrib.django.middleware.TracingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,7 +52,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'group_mgr.urls'
-
+ELASTIC_APM = {
+    'SERVICE_NAME': 'group_mgr_service',
+    'SECRET_TOKEN': '',   # optional in local
+    'SERVER_URL': 'http://apm-server:8200',   # where APM server runs
+    'DISABLE_SEND' : False,
+    'ENVIRONMENT': 'development',            # dev/stage/prod
+     "TRANSPORT_CLASS": "elasticapm.transport.http.AsyncTransport",
+}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
