@@ -147,8 +147,23 @@ class GroupDbMgr:
     def get_groups_of_user(self, user_id: int):
         session = self.get_session()
         try:
-            return session.query(GroupUserMapping)\
-                          .filter_by(user_id=user_id).all()
+            mappings = session.query(GroupUserMapping)\
+                              .filter_by(user_id=user_id).all()
+            result = []
+            for mapping in mappings:
+                group = session.query(GroupData).filter_by(id=mapping.group_id).first()
+                group_name = group.group_name if group else None
+                updated_mapping = {
+                    "id": mapping.id,
+                    "user_id": mapping.user_id,
+                    "group_id": mapping.group_id,
+                    "role": mapping.role,
+                    "joined_at": mapping.joined_at,
+                    "status": mapping.status,
+                    "group_name": group_name
+                }
+                result.append(updated_mapping)
+            return result
         finally:
             session.close()
 

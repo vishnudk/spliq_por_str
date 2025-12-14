@@ -80,7 +80,8 @@ class UsersInGroup(APIView):
 class GroupsOfUser(APIView):
     def get(self, request, user_id):
         mappings = db.get_groups_of_user(user_id)
-        return Response([mapping_to_dict(m) for m in mappings])
+        # return Response([mapping_to_dict(m) for m in mappings])
+        return Response(mappings)
 
 
 class UpdateUserGroupMapping(APIView):

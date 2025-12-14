@@ -19,6 +19,7 @@ def authenticateUser(request):
             return JsonResponse({'message': 'Login Failed', 'status' : 'failed'}, status=401)
     else:
         returnJsonResponse({'message': 'Login Failed', 'status' : 'failed'}, status=405)
+        
 @csrf_exempt
 def createUser(request):
     if request.method == 'POST':

@@ -69,6 +69,7 @@ ELASTIC_APM = {
     'DISABLE_SEND' : False,
     'ENVIRONMENT': 'development',            # dev/stage/prod
      "TRANSPORT_CLASS": "elasticapm.transport.http.AsyncTransport",
+     'TRANSACTIONS_SAMPLE_RATE': 1.0, 
 }
 TEMPLATES = [
     {

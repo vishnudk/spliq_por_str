@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { GET_USERS } from './app.query';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

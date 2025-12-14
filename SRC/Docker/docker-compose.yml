@@ -1,15 +1,15 @@
 version: "3.8"
 
 services:
-  # app_ui:
-  #   build:
-  #     context: ../   # Path to your Angular project
-  #     dockerfile: Dockerfile
-  #   platform: linux/amd64
-  #   ports:
-  #     - "4200:80"   # Browser → container
-  #   networks:
-  #     - app-network
+  app-ui:
+    build:
+      context: ../UI/AppUI   # Path to your Angular project
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "4200:4200"   # Browser → container
+    networks:
+      - app-network
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
     environment:
@@ -70,7 +70,7 @@ services:
       - app-network
 
   # user db and user mgr
-  user_db:
+  user-db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -82,7 +82,7 @@ services:
     networks:
       - user-network
 
-  user_mgr:
+  user-mgr:
     build:
       context: ../BL/user_mgr
       dockerfile: Dockerfile
@@ -90,12 +90,12 @@ services:
       DB_NAME: user_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: user_db
+      DB_HOST: user-db
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ../BL/user_mgr:/app
     depends_on:
-      - user_db
+      - user-db
     ports:
       - "8000:8000"
     networks:
@@ -103,7 +103,7 @@ services:
       - app-network
 
   # group db and group mgr
-  group_db:
+  group-db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -115,7 +115,7 @@ services:
     networks:
       - group-network
 
-  group_mgr:
+  group-mgr:
     build:
       context: ../BL/group_mgr
       dockerfile: Dockerfile
@@ -123,12 +123,12 @@ services:
       DB_NAME: group_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: group_db
+      DB_HOST: group-db
     command: python manage.py runserver 0.0.0.0:8001
     volumes:
       - ../BL/group_mgr:/app
     depends_on:
-      - group_db
+      - group-db
     ports:
       - "8001:8001"
     networks:
@@ -136,7 +136,7 @@ services:
       - app-network
 
   # expense db and expense mgr
-  expense_db:
+  expense-db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -148,7 +148,7 @@ services:
     networks:
       - expense-network
 
-  expense_mgr:
+  expense-mgr:
     build:
       context: ../BL/expense_mgr
       dockerfile: Dockerfile
@@ -156,19 +156,19 @@ services:
       DB_NAME: expense_database
       DB_USER: root
       DB_PASSWORD: root
-      DB_HOST: expense_db
-    command: python manage.py runserver 0.0.0.0:8002
+      DB_HOST: expense-db
+    command: python manage.py runserver 0.0.0.0:8003
     volumes:
       - ../BL/expense_mgr:/app
     depends_on:
-      - expense_db
+      - expense-db
     ports:
-      - "8002:8002"
+      - "8003:8003"
     networks:
       - expense-network
       - app-network
 
-  nginx_server:
+  nginx-server:
     build:
       context: ../Infra
       dockerfile: Dockerfile

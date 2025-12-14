@@ -9,11 +9,10 @@ import {MatCardModule} from '@angular/material/card';
   styleUrl: './home-page-settle-item.css',
 })
 export class HomePageSettleItem {
- @Input() groupName!: string;
-  @Input() totalAmount!: number;
-  @Input() currency!: string;
+ @Input() conversationName!: string;
+  @Input() conversationId!: number;
 
   onSelect() {
-    console.log(`Selected group: ${this.groupName}, Amount: ${this.totalAmount} ${this.currency}`);
+    console.log(`Selected group: ${this.conversationName}`);
   }
 }

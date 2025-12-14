@@ -19,3 +19,11 @@ class GroupUserMapping(Base):
     role = Column(String(20), nullable=False)  # e.g., 'admin', 'member'
     joined_at = Column(Date, nullable=False)
     status = Column(String(20), nullable=False)  # e.g., 'active', 'inactive'
+
+    @property
+    def group_name(self):
+        return self._group_name
+
+    @group_name.setter
+    def group_name(self, value: str):
+        self._group_name = value

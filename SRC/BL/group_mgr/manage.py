@@ -2,8 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import elasticapm
-elasticapm.instrument()
+os.environ.setdefault("DJANGO_ALLOW_ASGI", "false")
 
 def main():
     """Run administrative tasks."""

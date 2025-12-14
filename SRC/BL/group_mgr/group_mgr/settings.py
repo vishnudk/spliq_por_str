@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-!ut6c14k$p64iase6&3!+#^fb5p!$iym*)93xdx1(6iva5g-l)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*","group-mgr:8001"]
 
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-     'elasticapm.contrib.django.middleware.TracingMiddleware',
+    'elasticapm.contrib.django.middleware.TracingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,16 +57,34 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'group_mgr.urls'
 ELASTIC_APM = {
-    'SERVICE_NAME': 'group_mgr_service',
-    'SECRET_TOKEN': '',   # optional in local
-    'SERVER_URL': 'http://apm-server:8200',   # where APM server runs
-    'DISABLE_SEND' : False,
-    'ENVIRONMENT': 'development',            # dev/stage/prod
-     "TRANSPORT_CLASS": "elasticapm.transport.http.AsyncTransport",
-     'TRANSACTIONS_SAMPLE_RATE': 1.0, 
+    "SERVICE_NAME": "group_mgr_service",
+    "SECRET_TOKEN": "",
+    "SERVER_URL": "http://apm-server:8200",
+    "ENVIRONMENT": "development",
+    "TRANSACTIONS_SAMPLE_RATE": 1.0,
+    "INSTRUMENT": True,
+    "CAPTURE_BODY": "all",
+    "CAPTURE_HEADERS": True,
 }
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "loggers": {
+        "elasticapm": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+    },
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

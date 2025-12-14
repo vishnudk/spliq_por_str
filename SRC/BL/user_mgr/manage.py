@@ -3,7 +3,8 @@
 import os
 import sys
 
-
+import elasticapm
+elasticapm.instrument()
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'user_mgr.settings')

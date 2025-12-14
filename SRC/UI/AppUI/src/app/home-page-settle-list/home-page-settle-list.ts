@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { HomePageSettleItem } from '../home-page-settle-item/home-page-settle-item';
-
+import { UserDataServiceById } from '../app.graphQlService';
+import { GET_USER_CONVERSATIONS } from '../app.query';
 @Component({
   selector: 'app-home-page-settle-list',
     standalone: true,
@@ -11,150 +12,31 @@ import { HomePageSettleItem } from '../home-page-settle-item/home-page-settle-it
 export class HomePageSettleList {
 
    @ViewChild('container', { read: ViewContainerRef }) container!: ViewContainerRef;
-ngAfterViewInit() {
-    this.addComponents();
-  }
-groupList = [
-    {
-        groupName: 'Trip to Paris',
-        totalAmount: 1200,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    {
-        groupName: 'Weekend Getaway',
-        totalAmount: 600,
-        currency: 'USD'
-    },
-    
-];
+    ngAfterViewInit() {
+        this.addConversations();
+    }
 
-addComponents() {
+    constructor(private userDataService: UserDataServiceById) {
+    }
+
+addConversations() {
     this.container.clear(); // clear previous components
-    this.groupList.forEach(data => {
-      const compRef = this.container.createComponent(HomePageSettleItem);
-      compRef.instance.groupName = data.groupName;
-      compRef.instance.totalAmount = data.totalAmount;
-      compRef.instance.currency = data.currency;
-    });
+
+    this.userDataService.getUsersById(GET_USER_CONVERSATIONS,2).subscribe(user => {
+        console.log('Fetched user conversations :', user);
+        user.conversationType.forEach((conversation: any) => {
+            const compRef = this.container.createComponent(HomePageSettleItem);
+            compRef.instance.conversationName = conversation.conversationName;
+            compRef.instance.conversationId = conversation.conversationId;
+        })});
   }
 }
+
+// constructor(private userDataService: UserDataServiceById) {
+//     userDataService.getUsersById(GET_USER_EXPENSE_AND_INCOME_WITH_ID,2).subscribe(user => {
+//       console.log('Fetched users with expenses:', user);
+//       this.youGet = user.expenseType.at(0).totalAmountToGet || 0;
+//       this.youOwe = user.expenseType.at(0).totalAmountToBePaid || 0;
+//     });
+     
+//   }
