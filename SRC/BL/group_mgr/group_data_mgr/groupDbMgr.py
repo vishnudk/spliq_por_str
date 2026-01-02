@@ -36,7 +36,7 @@ class GroupDbMgr:
     #       GROUP DATA CRUD
     # ============================
 
-    def create_group(self, group_name: str, created_at=None):
+    def create_group(self, group_name: str, user_ids: list = None, created_at=None):
         session = self.get_session()
         try:
             group = GroupData(
@@ -44,6 +44,19 @@ class GroupDbMgr:
                 created_at=created_at or datetime.now().date()
             )
             session.add(group)
+            session.flush() # Flush to get the group ID
+
+            if user_ids:
+                for user_id in user_ids:
+                    mapping = GroupUserMapping(
+                        user_id=user_id,
+                        group_id=group.id,
+                        role="member",
+                        status="active",
+                        joined_at=datetime.now().date()
+                    )
+                    session.add(mapping)
+
             session.commit()
             session.refresh(group)
             return group

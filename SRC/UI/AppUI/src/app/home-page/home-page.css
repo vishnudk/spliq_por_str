@@ -1,16 +1,34 @@
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* No scrollbars */
+  overflow: hidden;
+  /* No scrollbars */
   background-color: rgb(240, 240, 243);
 }
 
 html {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full device height */
-  width: 100vw;  /* Full device width */
+  height: 100vh;
+  /* Full device height */
+  width: 100vw;
+  /* Full device width */
+  overflow: hidden;
+}
+
+.main-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
 }

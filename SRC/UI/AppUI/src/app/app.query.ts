@@ -2,7 +2,7 @@ import { gql } from 'apollo-angular';
 
 export const GET_USERS = gql`
     query {
-    user{
+    users{
         id 
         userEmail
         username

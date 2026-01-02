@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Home Page</title>
 </head>
+
 <body>
-    <app-home-page-header></app-home-page-header>
-    <app-home-page-body></app-home-page-body>
+    <div class="main-container">
+        <app-nav-bar (onCreateGroup)="openModal()"></app-nav-bar>
+        <div class="content-area">
+            <app-home-page-header></app-home-page-header>
+            <app-home-page-body></app-home-page-body>
+        </div>
+    </div>
+    <app-create-group-modal *ngIf="isModalOpen" (onClose)="closeModal()" (onGroupCreated)="onGroupCreated()">
+    </app-create-group-modal>
 </body>
 <footer>
 </footer>
+
 </html>

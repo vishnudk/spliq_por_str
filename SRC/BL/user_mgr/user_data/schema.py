@@ -87,14 +87,14 @@ def get_users(user_id: int) -> list[UserType]:
 
 @strawberry.type
 class Query:
-    users: list[UserType] = strawberry.field(resolver=get_users)
-    # user: UserType = strawberry.field(resolver=get_user)
+    @strawberry.field
+    def users(self) -> list[UserType]:
+        # Return a list of all users (dummy implementation using multiple IDs)
+        return get_users(1) + get_users(2)
+    
     @strawberry.field
     def user(self, userId: int) -> Optional[UserType]:
         userData = get_users(userId)
-        # for user in users:
-        #     if user.id == userId:
         return userData[0]
-        # return None
 
 schema = strawberry.Schema(query=Query)

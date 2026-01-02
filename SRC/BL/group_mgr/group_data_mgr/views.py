@@ -15,10 +15,11 @@ class GroupListCreate(APIView):
 
     def post(self, request):
         name = request.data.get("group_name")
+        user_ids = request.data.get("user_ids", [])
         if not name:
             return Response({"error": "group_name required"}, status=400)
 
-        group = db.create_group(group_name=name)
+        group = db.create_group(group_name=name, user_ids=user_ids)
         return Response(group_to_dict(group), status=201)
 
 class GroupDetail(APIView):

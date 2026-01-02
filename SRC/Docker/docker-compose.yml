@@ -3,11 +3,15 @@ version: "3.8"
 services:
   app-ui:
     build:
-      context: ../UI/AppUI   # Path to your Angular project
+      context: ../UI/AppUI
       dockerfile: Dockerfile
     platform: linux/amd64
     ports:
-      - "4200:4200"   # Browser → container
+      - "4200:4200"
+    volumes:
+      - ../UI/AppUI:/app
+      - /app/node_modules # Preserve container's Linux node_modules
+    command: npm start
     networks:
       - app-network
   elasticsearch:
@@ -21,7 +25,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      test: [ "CMD-SHELL", "curl -f http://localhost:9200 || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -52,10 +56,7 @@ services:
     networks:
       - app-network
     command: >
-      apm-server -e
-      -E output.elasticsearch.hosts=["http://elasticsearch:9200"]
-      -E setup.kibana.host="http://kibana:5601"
-      -E apm-server.host="0.0.0.0:8200"
+      apm-server -e -E output.elasticsearch.hosts=["http://elasticsearch:9200"] -E setup.kibana.host="http://kibana:5601" -E apm-server.host="0.0.0.0:8200"
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.14.0
@@ -77,6 +78,8 @@ services:
       MYSQL_DATABASE: user_database
     expose:
       - "3306"
+    ports:
+      - "8002:3306"
     volumes:
       - user_db_data:/var/lib/mysql
     networks:
@@ -185,6 +188,7 @@ volumes:
   user_db_data:
   group_db_data:
   expense_db_data:
+
 
 networks:
   app-network:

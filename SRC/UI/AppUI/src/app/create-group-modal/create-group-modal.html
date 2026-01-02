@@ -1,0 +1,27 @@
+<div class="modal-overlay" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h2>Create New Group</h2>
+
+        <div class="form-group">
+            <label>Group Name</label>
+            <input type="text" [(ngModel)]="groupName" placeholder="Enter group name">
+        </div>
+
+        <div class="form-group">
+            <label>Select Users</label>
+            <div class="user-list">
+                <div *ngFor="let user of users" class="user-item" [class.selected]="selectedUserIds.has(user.id)"
+                    (click)="toggleUser(user.id)">
+                    {{ user.username }}
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button (click)="close()" class="cancel-btn">Cancel</button>
+            <button (click)="createGroup()" [disabled]="!groupName || loading" class="create-btn">
+                {{ loading ? 'Creating...' : 'Create Group' }}
+            </button>
+        </div>
+    </div>
+</div>

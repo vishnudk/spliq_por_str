@@ -14,7 +14,16 @@ export class HomePageSettleList {
    @ViewChild('container', { read: ViewContainerRef }) container!: ViewContainerRef;
     ngAfterViewInit() {
         this.addConversations();
+        window.addEventListener('groups:changed', this.onGroupsChanged);
     }
+
+    ngOnDestroy() {
+        window.removeEventListener('groups:changed', this.onGroupsChanged);
+    }
+
+    private onGroupsChanged = () => {
+        this.addConversations();
+    };
 
     constructor(private userDataService: UserDataServiceById) {
     }

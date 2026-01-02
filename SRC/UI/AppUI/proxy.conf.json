@@ -1,0 +1,12 @@
+{
+    "/groupData": {
+        "target": "http://group-mgr:8001",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/userMgrAuth": {
+      "target": "http://user-mgr:8000",
+      "secure": false,
+      "changeOrigin": true
+    }
+}
