@@ -1,8 +1,18 @@
 .settle_list_div {
   margin-top: 20px;
-  height: 100vh;            /* or a smaller fixed height */
+  height: 65vh;
+  /* Changed from 100vh to fit parent container */
   width: 100%;
-  overflow-y: auto;         /* enables vertical scroll */
+  overflow-y: auto;
+  /* enables vertical scroll */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#settle_list_container {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -14,6 +24,7 @@
 .settle_list_div::-webkit-scrollbar {
   width: 6px;
 }
+
 .settle_list_div::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 3px;

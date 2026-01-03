@@ -12,7 +12,7 @@ export const GET_USERS = gql`
 
 export const GET_USER_EXPENSE_AND_INCOME_WITH_ID = gql`
    query GetUserById($userId: Int!) {
-    user(userId: $userId) {
+    user(userId: $userId) { 
       id
         expenseType{
             id totalAmountToBePaid totalAmountToGet
