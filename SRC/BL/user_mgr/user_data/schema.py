@@ -39,22 +39,18 @@ def request_grpMgr_for_user_grps(user_id: int) -> list[str]:
 
 def get_expenses(user_id: int) -> list[ExpenseType]:
     # Dummy data for demonstration
-    if user_id == 1:
-        return [
-            ExpenseType(
-                id=1,
-                totalAmountToBePaid=150.0,
-                totalAmountToGet=200.0
-            )
-        ]
-    else:
-        return [
-            ExpenseType(
-                id=2,
-                totalAmountToBePaid=15022.0,
-                totalAmountToGet=4200.0
-            )
-        ]
+    logger = logging.getLogger(__name__)
+    logger.info(f"Fetching expenses for user_id: {user_id}")
+    response = requests.get(f"http://expense-mgr:8003/expenseData/user/{user_id}/")
+    if response.status_code == 200:
+        data = response.json()
+        return [ExpenseType(
+            id=user_id,
+            totalAmountToBePaid=data.get('total_to_pay', 0.0),
+            totalAmountToGet=data.get('total_to_receive', 0.0)
+        )]
+    return []
+   
 
 def get_conversations(user_id: int) -> list[UserConversationsListType]:
     # Dummy data for demonstration
