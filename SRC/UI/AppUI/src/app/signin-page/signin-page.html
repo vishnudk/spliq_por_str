@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+
+<body>
+    <mat-card class="login-card">
+        <img mat-card-image id="settle_logo" src="\icons\settle_title_image_black.png" alt="Company logo!!">
+        <mat-card-header>
+            <mat-card-title>Create Account</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <br>
+            <br>
+
+            <form class="user-input-form">
+                <mat-form-field appearance="outline" class="userDataInputs">
+                    <mat-label>Username</mat-label>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input matInput [(ngModel)]="username" name="username" (blur)="checkUsername()" placeholder="">
+                </mat-form-field>
+                <div style="color: red; font-size: 12px; margin-bottom: 10px;" *ngIf="usernameError">{{usernameError}}
+                </div>
+
+                <mat-form-field appearance="outline" class="userDataInputs">
+                    <mat-label>Email</mat-label>
+                    <mat-icon matPrefix>mail</mat-icon>
+                    <input matInput [(ngModel)]="email" name="email" placeholder="">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="userDataInputs">
+                    <mat-label>Password</mat-label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput [(ngModel)]="password" name="password" placeholder="" type="password">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="userDataInputs">
+                    <mat-label>Confirm Password</mat-label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="" type="password">
+                </mat-form-field>
+                <div style="color: red; font-size: 12px;" *ngIf="passwordError">{{passwordError}}</div>
+
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button matButton="filled" id="login_button" (click)="onSignup()">Sign Up</button>
+        </mat-card-actions>
+        <br>
+    </mat-card>
+</body>
+
+</html>

@@ -35,3 +35,16 @@ def createUser(request):
             return JsonResponse({'message': 'User creation failed', 'status' : 'failed'}, status=400)
     else:
         return JsonResponse({'message': 'User creation failed', 'status' : 'failed'}, status=405)
+
+@csrf_exempt
+def checkUsername(request):
+    if request.method == 'POST':
+        print("Check Username called")
+        username = request.POST.get('username')
+        
+        if userCredentialMgr().check_username_exists(username):
+            return JsonResponse({'message': 'Username exists', 'status':'exists'}, status=200)
+        else:
+            return JsonResponse({'message': 'Username available', 'status' : 'available'}, status=200)
+    else:
+        return JsonResponse({'message': 'Failed', 'status' : 'failed'}, status=405)

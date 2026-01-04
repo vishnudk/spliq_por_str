@@ -13,3 +13,9 @@ class userCredentialMgr:
     def create_user(self, username, password, email):
         print("Creating user:", username)
         return userDbMgr().add_user(username, password, email)
+
+    def check_username_exists(self, username):
+        print("Checking if username exists:", username)
+        if userDbMgr().get_user_by_username(username):
+            return True
+        return False
