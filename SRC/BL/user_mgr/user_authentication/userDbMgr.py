@@ -26,7 +26,13 @@ class userDbMgr:
     def get_user_by_username(self, username):
         user = self.session.query(UserData).filter_by(username=username).first()
         if user:
-            return {'username': user.username, 'password': user.password}
+            return {'id': user.id, 'username': user.username, 'password': user.password, 'email': user.userEmail}
+        return None
+
+    def get_user_by_id(self, user_id):
+        user = self.session.query(UserData).filter_by(id=user_id).first()
+        if user:
+            return {'id': user.id, 'username': user.username, 'password': user.password, 'email': user.userEmail}
         return None
         
     def add_user(self, username, password, email):

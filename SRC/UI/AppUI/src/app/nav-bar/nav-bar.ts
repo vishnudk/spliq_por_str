@@ -7,10 +7,15 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class NavBar {
   @Output() onCreateGroup = new EventEmitter<void>();
+  @Output() onLogout = new EventEmitter<void>();
   isCollapsed = false;
 
   createGroup() {
     this.onCreateGroup.emit();
+  }
+
+  logout() {
+    this.onLogout.emit();
   }
 
   toggleCollapse() {

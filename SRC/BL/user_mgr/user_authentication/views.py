@@ -13,8 +13,9 @@ def authenticateUser(request):
         password = request.POST.get('password')
         
         # Here you would typically validate the credentials
-        if userCredentialMgr().validate_credentials(username, password):
-            return JsonResponse({'message': 'Login success', 'status':'success'}, status=200)
+        user_record = userCredentialMgr().validate_credentials(username, password)
+        if user_record:
+            return JsonResponse({'message': 'Login success', 'status':'success', 'userid': user_record['id'], 'username': user_record['username']}, status=200)
         else:
             return JsonResponse({'message': 'Login Failed', 'status' : 'failed'}, status=401)
     else:

@@ -28,16 +28,30 @@ export class HomePageSettleList {
     constructor(private userDataService: UserDataServiceById) {
     }
 
-addConversations() {
+  addConversations() {
     this.container.clear(); // clear previous components
+    
+    const userId = this.getCookie('userid');
+    if (!userId) {
+        console.error('User ID not found in cookies');
+        // Handle case where user is not logged in if necessary, maybe redirect
+        return;
+    }
 
-    this.userDataService.getUsersById(GET_USER_CONVERSATIONS,2).subscribe(user => {
+    this.userDataService.getUsersById(GET_USER_CONVERSATIONS, parseInt(userId)).subscribe(user => {
         console.log('Fetched user conversations :', user);
         user.conversationType.forEach((conversation: any) => {
             const compRef = this.container.createComponent(HomePageSettleItem);
             compRef.instance.conversationName = conversation.conversationName;
             compRef.instance.conversationId = conversation.conversationId;
         })});
+  }
+
+  private getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
   }
 }
 

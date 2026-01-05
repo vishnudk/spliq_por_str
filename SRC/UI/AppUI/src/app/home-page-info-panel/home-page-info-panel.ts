@@ -11,9 +11,21 @@ import { GET_USER_EXPENSE_AND_INCOME_WITH_ID } from '../app.query';
 export class HomePageInfoPanel {
   @Input() youGet!: number;
   @Input() youOwe!: number;
-
+  private getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
   constructor(private userDataService: UserDataServiceById) {
-    userDataService.getUsersById(GET_USER_EXPENSE_AND_INCOME_WITH_ID, 1).subscribe(user => {
+    const userId = this.getCookie('userid');
+    if (!userId) {
+      console.error('User ID not found in cookies');
+      // Handle case where user is not logged in if necessary, maybe redirect
+      return;
+    }
+    const userIdInt = parseInt(userId)
+    userDataService.getUsersById(GET_USER_EXPENSE_AND_INCOME_WITH_ID, userIdInt).subscribe(user => {
 
       console.log('Fetched users with expenses:', user);
       if (user) {
