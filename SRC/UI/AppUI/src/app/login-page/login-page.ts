@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { Router } from '@angular/router';
-import {HomePage} from '../home-page/home-page';
+import { HomePage } from '../home-page/home-page';
 @Component({
   selector: 'app-login-page',
-  imports: [MatCardModule, 
-    MatFormFieldModule, 
+  imports: [MatCardModule,
+    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
@@ -24,7 +24,7 @@ import {HomePage} from '../home-page/home-page';
   standalone: true
 })
 export class LoginPage {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
   username: string = '';
   password: string = '';
 
@@ -37,20 +37,23 @@ export class LoginPage {
       method: 'POST',
       body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      if(data.status === 'success'){
-        // Handle successful login
-        console.log('Login successful!');
-        this.router.navigate(['home']);
-      } else {
-        // Handle login failure
-        console.log('Login failed:', data.message);
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        if (data.status === 'success') {
+          // Handle successful login
+          console.log('Login successful!', data);
+          // Set cookies
+          document.cookie = `userid=${data.userid}; path=/`;
+          document.cookie = `username=${data.username}; path=/`;
+          this.router.navigate(['home']);
+        } else {
+          // Handle login failure
+          console.log('Login failed:', data.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 }

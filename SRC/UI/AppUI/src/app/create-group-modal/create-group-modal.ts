@@ -39,7 +39,22 @@ export class CreateGroupModal implements OnInit {
             this.selectedUserIds.add(userId);
         }
     }
-
+    private getCookie(name: string): string | null {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+        return null;
+    }
+    private getUserIdFromCookies() {
+        const userId = this.getCookie('userid');
+        if (!userId) {
+            console.error('User ID not found in cookies');
+            // Handle case where user is not logged in if necessary, maybe redirect
+            return;
+        }
+        const userIdInt = parseInt(userId)
+        return userIdInt;
+    }
     async createGroup() {
         if (!this.groupName.trim()) return;
 
@@ -52,7 +67,7 @@ export class CreateGroupModal implements OnInit {
                 },
                 body: JSON.stringify({
                     group_name: this.groupName,
-                    user_ids: Array.from(new Set([...this.selectedUserIds, 2])) // Hardcoded current user ID 2
+                    user_ids: Array.from(new Set([...this.selectedUserIds, this.getUserIdFromCookies()]))
                 }),
             });
 

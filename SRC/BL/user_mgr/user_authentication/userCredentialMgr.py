@@ -8,7 +8,7 @@ class userCredentialMgr:
         print("Validating credentials for user:", username)
         user_record = userDbMgr().get_user_by_username(username)
         if user_record and user_record['password'] == password:
-            return True
+            return user_record
         return False
     def create_user(self, username, password, email):
         print("Creating user:", username)

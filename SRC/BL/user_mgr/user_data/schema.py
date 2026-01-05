@@ -70,15 +70,26 @@ def get_conversations(user_id: int) -> list[UserConversationsListType]:
     return data
 
 def get_users(user_id: int) -> list[UserType]:
-    # Dummy data for demonstration
-    data = [
-        UserType(
-            id=user_id,
-            username="Luca",
-            userEmail="user@gmail.com",
-            expenseType=get_expenses(user_id),
-            conversationType=get_conversations(user_id))]
-    return data
+    from user_authentication.userDbMgr import userDbMgr
+    
+    # Fetch user from DB
+    # We might need a get_user_by_id in userDbMgr or just use existing methods if possible
+    # userDbMgr currently only has get_user_by_username. I should add get_user_by_id first or use a direct query here if I can't modify userDbMgr easily again (which I can).
+    # Let's assume I'll add get_user_by_id to userDbMgr next.
+    
+    user_record = userDbMgr().get_user_by_id(user_id)
+    
+    if user_record:
+        return [
+            UserType(
+                id=user_record['id'],
+                username=user_record['username'],
+                userEmail=user_record['email'],
+                expenseType=get_expenses(user_id),
+                conversationType=get_conversations(user_id)
+            )
+        ]
+    return []
 
 
 @strawberry.type
