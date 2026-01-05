@@ -29,7 +29,7 @@ class TransactionDbManager:
         conn.close()
     # -------------------- TransactionData CRUD --------------------
 
-    def create_transaction(self, amount, paid_by, group_id, created_date=None):
+    def create_transaction(self, amount, paid_by, group_id, description=None, created_date=None):
         if created_date is None:
             created_date = date.today()
 
@@ -37,6 +37,7 @@ class TransactionDbManager:
             amount=amount,
             paid_by=paid_by,
             group_id=group_id,
+            description=description,
             created_date=created_date
         )
         self.session.add(tx)
@@ -48,6 +49,9 @@ class TransactionDbManager:
 
     def get_all_transactions(self):
         return self.session.query(TransactionData).all()
+
+    def get_transactions_by_group(self, group_id):
+        return self.session.query(TransactionData).filter_by(group_id=group_id).all()
 
     def update_transaction(self, tx_id, **kwargs):
         tx = self.get_transaction(tx_id)
@@ -102,3 +106,4 @@ class TransactionDbManager:
         self.session.delete(part)
         self.session.commit()
         return True
+

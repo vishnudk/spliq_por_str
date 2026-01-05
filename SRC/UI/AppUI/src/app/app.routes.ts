@@ -4,6 +4,8 @@ import { HomePage } from '../app/home-page/home-page';
 import { LoginPage } from '../app/login-page/login-page';
 import { SigninPage } from '../app/signin-page/signin-page';
 import { SplashScreen } from '../app/splash-screen/splash-screen';
+import { GroupPage } from '../app/group-page/group-page';
+import { AddExpensePage } from '../app/add-expense-page/add-expense-page';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'splash', pathMatch: 'full' },
@@ -11,6 +13,8 @@ export const routes: Routes = [
     { path: 'login', component: LoginPage },
     { path: 'home', component: HomePage },
     { path: 'signin', component: SigninPage },
+    { path: 'group/:id', component: GroupPage },
+    { path: 'group/:id/add-transaction', component: AddExpensePage },
 ];
 
 

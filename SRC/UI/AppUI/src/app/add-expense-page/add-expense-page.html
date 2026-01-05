@@ -1,1 +1,38 @@
-<p>add-expense-page works!</p>
+<div class="main-container">
+    <app-nav-bar></app-nav-bar>
+    <div class="content-area">
+        <app-home-page-header></app-home-page-header>
+        <div class="add-expense-content">
+            <div class="header">
+                <button class="back-btn" (click)="goBack()">&#8592;</button>
+                <h2>Add Expense</h2>
+            </div>
+
+            <div class="form-container">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" class="amount-input" [(ngModel)]="amount" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="desc-input" [(ngModel)]="description" placeholder="What is this for?">
+                </div>
+
+                <div class="members-section">
+                    <div class="form-group">
+                        <label>Split with</label>
+                        <div class="members-list">
+                            <div class="member-item" *ngFor="let member of members">
+                                <input type="checkbox" [(ngModel)]="member.selected">
+                                <span>{{member.username}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="save-btn" (click)="saveExpense()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

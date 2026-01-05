@@ -11,6 +11,7 @@ class TransactionData(Base):
     amount = Column("amount", DECIMAL(10, 0), nullable=False)
     paid_by = Column("paid_by", Integer, nullable=False)
     group_id = Column("group_id", Integer, nullable=True)
+    description = Column("description", String(255), nullable=True)
     created_date = Column("created_date", Date, nullable=False)
 
 

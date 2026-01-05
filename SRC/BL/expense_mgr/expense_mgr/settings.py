@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-otf*rqd6cdheflhavt6#_$fm$zz*)lf*lem4(xh908s=ed1g08
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
       'elasticapm.contrib.django'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
      'elasticapm.contrib.django.middleware.TracingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,6 +68,12 @@ ELASTIC_APM = {
      "TRANSPORT_CLASS": "elasticapm.transport.http.AsyncTransport",
      'TRANSACTIONS_SAMPLE_RATE': 1.0, 
 }
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://192.168.1.3",
+    "http://localhost"
+]
+CORS_ALLOW_ALL_ORIGINS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
