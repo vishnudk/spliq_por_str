@@ -5,6 +5,19 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NavBar } from '../nav-bar/nav-bar';
 import { HomePageHeader } from '../home-page-header/home-page-header';
+import { UserDataServiceById } from '../app.graphQlService';
+import { GET_USER_NAME_WITH_USER_ID } from '../app.query';
+
+class GroupMemberData {
+  public id: number;
+  public username: string;
+  public selected: boolean;
+  constructor(id: number, username: string, selected: boolean) {
+    this.id = id;
+    this.username = username;
+    this.selected = selected;
+  }
+}
 
 @Component({
   selector: 'app-add-expense-page',
@@ -19,21 +32,45 @@ export class AddExpensePage implements OnInit {
   members: any[] = [];
   groupId: string | null = null;
   currentUserId: number | null = null;
-
+  userName: string = '';
   constructor(
     private location: Location,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userDataGrphQlSerive: UserDataServiceById
   ) { }
 
   ngOnInit() {
     this.groupId = this.route.snapshot.paramMap.get('id');
     this.getCurrentUser();
+    this.userName = this.getCookie('username') || '';
     if (this.groupId) {
       this.fetchGroupUsers();
     }
+    console.log("Going to print member details of the group!");
+    console.log(this.members);
+    for (let member of this.members) {
+      console.log(member);
+    }
   }
-
+  private getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
+  getUserNameFromUserId(userId: number) {
+    this.userDataGrphQlSerive.getUsersById(GET_USER_NAME_WITH_USER_ID, userId)
+      .subscribe((data) => {
+        console.log(data);
+        for (let i = 0; i < this.members.length; i++) {
+          if (this.members[i].id == userId) {
+            this.members[i].username = data.username;
+            break;
+          }
+        }
+      });
+  }
   getCurrentUser() {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -46,16 +83,23 @@ export class AddExpensePage implements OnInit {
   }
 
   fetchGroupUsers() {
-    fetch(`/groupData/group/${this.groupId}/users/`)
+    fetch(`http://localhost:8001/groupData/group/${this.groupId}/users/`)
       .then(response => response.json())
       .then(data => {
+        console.log("Going to print member details of the group!");
+        console.log(data);
         // Assume data is a list of users or object with users
         // Mapping to add 'selected' property
         if (Array.isArray(data)) {
-          this.members = data.map(user => ({ ...user, selected: true })); // Default select all
-        } else if (data.users) {
-          this.members = data.users.map((user: any) => ({ ...user, selected: true }));
+
+          this.members = data.map(user => {
+            this.getUserNameFromUserId(user["user_id"]);
+            return new GroupMemberData(parseInt(user["user_id"]),
+              "", // for now this will be empty but this will be filled from a function call from html
+              true);
+          });
         }
+        console.log(this.members);
       })
       .catch(error => console.error('Error fetching group users:', error));
   }

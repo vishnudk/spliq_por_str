@@ -1,11 +1,21 @@
-#settle_logo
-{
+#settle_logo {
     height: 40%;
 }
-.profile-icon
-{
-    margin-left: auto; 
+
+.profile-icon {
+    margin-left: auto;
 }
-    .app-home-page-header {
-        background-color: #fefefe;
-    }
+
+.profile-name {
+    margin-left: auto;
+}
+
+.profile-details {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.app-home-page-header {
+    background-color: #fefefe;
+}
