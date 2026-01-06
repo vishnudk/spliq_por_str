@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavBar } from '../nav-bar/nav-bar';
@@ -15,7 +15,7 @@ export class GroupPage {
   groupId: string | null = null;
   transactions: any[] = [];
   groupName: string = 'Group';
-
+  userName: string = "";
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -23,9 +23,15 @@ export class GroupPage {
     if (this.groupId) {
       this.fetchTransactions();
       this.fetchGroupDetails();
+      this.userName = this.getUserNameFromCookie() || "";
     }
   }
-
+  private getUserNameFromCookie() {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; username=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
   fetchTransactions() {
     console.log(this.groupId);
     fetch(`http://localhost/expenseData/transactions/group/${this.groupId}/`)

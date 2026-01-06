@@ -144,9 +144,10 @@ class UserExpenseSummary(APIView):
                         total_to_receive += float(part.owed_amount)
             
             # If user is a participant in this transaction
-            for part in participations:
-                if part.participant_id == user_id and part.status == 'unpaid':
-                    total_to_pay += float(part.owed_amount)
+            else:
+                for part in participations:
+                    if part.participant_id == user_id and part.status == 'unpaid':
+                        total_to_pay += float(part.owed_amount)
         
         return Response({
             'user_id': user_id,

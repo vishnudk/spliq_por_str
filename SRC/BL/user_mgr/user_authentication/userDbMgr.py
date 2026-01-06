@@ -3,6 +3,8 @@ from sqlalchemy import create_engine, Column, Integer, String
 from user_mgr.settings import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 from user_core.models import UserData, Base
 import pymysql
+import logging
+
 
 class userDbMgr:
     def __init__(self):
@@ -47,6 +49,8 @@ class userDbMgr:
         return True
 
     def get_all_users(self):
+        logging.info("Going to get all user data in db;")
+
         users = [
             {'id': user.id, 'username': user.username, 'password': user.password, 'email': user.userEmail}
             for user in self.session.query(UserData).all()

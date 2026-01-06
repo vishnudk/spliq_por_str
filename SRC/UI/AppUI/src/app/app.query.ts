@@ -9,7 +9,14 @@ export const GET_USERS = gql`
     }
     }
 `;
-
+export const GET_USER_NAME_WITH_USER_ID = gql`
+query GetUserById($userId: Int!) {
+    user(userId: $userId) { 
+        id
+        username
+    }
+    }
+`;
 export const GET_USER_EXPENSE_AND_INCOME_WITH_ID = gql`
    query GetUserById($userId: Int!) {
     user(userId: $userId) { 
