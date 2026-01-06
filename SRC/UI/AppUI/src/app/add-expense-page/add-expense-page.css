@@ -1,0 +1,131 @@
+.main-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.add-expense-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    /* Keep white form background? or gray? Home page is gray. */
+    background-color: #f5f5f5;
+    overflow-y: auto;
+}
+
+.header {
+    background-color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    margin-right: 15px;
+    cursor: pointer;
+    line-height: 1;
+    color: #333;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.form-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    /* Center form */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.amount-input,
+.desc-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.amount-input {
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.members-section {
+    margin-bottom: 25px;
+}
+
+.members-list {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.member-item {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.member-item:last-child {
+    border-bottom: none;
+}
+
+.member-item input {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.save-btn {
+    width: 100%;
+    background-color: #490da3;
+    /* Matching nav color */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-btn:hover {
+    background-color: #541fa3;
+}

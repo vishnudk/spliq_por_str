@@ -1,93 +1,155 @@
 # views.py
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from .expenseDbMgr import TransactionDbManager
 from .utils import transaction_to_dict, participation_to_dict
+from datetime import date
 
-db = TransactionDbManager()
-
-# ---------------- TransactionData Views --------------------
 
 class TransactionListCreate(APIView):
+    """List all transactions or create a new transaction"""
+    
     def get(self, request):
-        txs = db.get_all_transactions()
-        return Response([transaction_to_dict(t) for t in txs])
-
+        db_mgr = TransactionDbManager()
+        transactions = db_mgr.get_all_transactions()
+        return Response([transaction_to_dict(t) for t in transactions])
+    
     def post(self, request):
-        required = ["amount", "paid_by"]
-        for r in required:
-            if r not in request.data:
-                return Response({"error": f"{r} required"}, status=400)
-
-        tx = db.create_transaction(
-            amount=request.data["amount"],
-            paid_by=request.data["paid_by"],
-            group_id=request.data.get("group_id")
+        db_mgr = TransactionDbManager()
+        data = request.data
+        
+        # Create transaction
+        tx = db_mgr.create_transaction(
+            amount=data.get('amount'),
+            paid_by=data.get('paid_by'),
+            group_id=data.get('group_id'),
+            description=data.get('description', ''),
+            created_date=data.get('created_date', date.today())
         )
-        return Response(transaction_to_dict(tx), status=201)
+        
+        # Create participations if provided
+        participations = data.get('participations', [])
+        for part in participations:
+            db_mgr.add_participation(
+                transaction_id=tx.id,
+                participant_id=part.get('participant_id'),
+                owed_amount=part.get('owed_amount'),
+                status=part.get('status', 'unpaid')
+            )
+        
+        return Response(transaction_to_dict(tx), status=status.HTTP_201_CREATED)
 
 
 class TransactionRetrieveUpdateDelete(APIView):
+    """Retrieve, update or delete a transaction"""
+    
     def get(self, request, tx_id):
-        tx = db.get_transaction(tx_id)
+        db_mgr = TransactionDbManager()
+        tx = db_mgr.get_transaction(tx_id)
         if not tx:
-            return Response({"error": "Not found"}, status=404)
+            return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
         return Response(transaction_to_dict(tx))
-
+    
     def put(self, request, tx_id):
-        tx = db.update_transaction(tx_id, **request.data)
+        db_mgr = TransactionDbManager()
+        tx = db_mgr.update_transaction(tx_id, **request.data)
         if not tx:
-            return Response({"error": "Not found"}, status=404)
+            return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
         return Response(transaction_to_dict(tx))
-
+    
     def delete(self, request, tx_id):
-        ok = db.delete_transaction(tx_id)
-        if not ok:
-            return Response({"error": "Not found"}, status=404)
-        return Response({"message": "Deleted"}, status=200)
+        db_mgr = TransactionDbManager()
+        success = db_mgr.delete_transaction(tx_id)
+        if not success:
+            return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-# ---------------- Participation Views --------------------
 
 class ParticipationListCreate(APIView):
+    """List participations for a transaction or create a new participation"""
+    
     def get(self, request, tx_id):
-        participations = db.get_participations_by_tx(tx_id)
+        db_mgr = TransactionDbManager()
+        participations = db_mgr.get_participations_by_tx(tx_id)
         return Response([participation_to_dict(p) for p in participations])
-
+    
     def post(self, request, tx_id):
-        required = ["participant_id", "owed_amount", "status"]
-        for r in required:
-            if r not in request.data:
-                return Response({"error": f"{r} required"}, status=400)
-
-        part = db.add_participation(
+        db_mgr = TransactionDbManager()
+        data = request.data
+        part = db_mgr.add_participation(
             transaction_id=tx_id,
-            participant_id=request.data["participant_id"],
-            owed_amount=request.data["owed_amount"],
-            status=request.data["status"],
-            settled_at=request.data.get("settled_at")
+            participant_id=data.get('participant_id'),
+            owed_amount=data.get('owed_amount'),
+            status=data.get('status', 'unpaid')
         )
-
-        return Response(participation_to_dict(part), status=201)
+        return Response(participation_to_dict(part), status=status.HTTP_201_CREATED)
 
 
 class ParticipationRetrieveUpdateDelete(APIView):
+    """Retrieve, update or delete a participation"""
+    
     def get(self, request, part_id):
-        part = db.get_participation(part_id)
+        db_mgr = TransactionDbManager()
+        part = db_mgr.get_participation(part_id)
         if not part:
-            return Response({"error": "Not found"}, status=404)
+            return Response({'error': 'Participation not found'}, status=status.HTTP_404_NOT_FOUND)
         return Response(participation_to_dict(part))
-
+    
     def put(self, request, part_id):
-        part = db.update_participation(part_id, **request.data)
+        db_mgr = TransactionDbManager()
+        part = db_mgr.update_participation(part_id, **request.data)
         if not part:
-            return Response({"error": "Not found"}, status=404)
+            return Response({'error': 'Participation not found'}, status=status.HTTP_404_NOT_FOUND)
         return Response(participation_to_dict(part))
-
+    
     def delete(self, request, part_id):
-        ok = db.delete_participation(part_id)
-        if not ok:
-            return Response({"error": "Not found"}, status=404)
-        return Response({"message": "Deleted"}, status=200)
+        db_mgr = TransactionDbManager()
+        success = db_mgr.delete_participation(part_id)
+        if not success:
+            return Response({'error': 'Participation not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GroupTransactions(APIView):
+    """Get all transactions for a specific group"""
+    
+    def get(self, request, group_id):
+        db_mgr = TransactionDbManager()
+        transactions = db_mgr.get_transactions_by_group(group_id)
+        return Response([transaction_to_dict(t) for t in transactions])
+
+
+class UserExpenseSummary(APIView):
+    """Get expense summary for a user (total to pay and total to receive)"""
+    
+    def get(self, request, user_id):
+        db_mgr = TransactionDbManager()
+        
+        # Get all transactions
+        all_transactions = db_mgr.get_all_transactions()
+        
+        total_to_pay = 0
+        total_to_receive = 0
+        
+        for tx in all_transactions:
+            # Get participations for this transaction
+            participations = db_mgr.get_participations_by_tx(tx.id)
+            
+            # If user paid for this transaction
+            if tx.paid_by == user_id:
+                # They should receive money from participants
+                for part in participations:
+                    if part.participant_id != user_id and part.status == 'unpaid':
+                        total_to_receive += float(part.owed_amount)
+            
+            # If user is a participant in this transaction
+            for part in participations:
+                if part.participant_id == user_id and part.status == 'unpaid':
+                    total_to_pay += float(part.owed_amount)
+        
+        return Response({
+            'user_id': user_id,
+            'total_to_pay': total_to_pay,
+            'total_to_receive': total_to_receive
+        })

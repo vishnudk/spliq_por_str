@@ -6,6 +6,7 @@ def transaction_to_dict(t):
         "amount": float(t.amount),
         "paid_by": t.paid_by,
         "group_id": t.group_id,
+        "description": t.description,
         "created_date": t.created_date.isoformat()
     }
 

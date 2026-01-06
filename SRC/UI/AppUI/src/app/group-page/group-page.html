@@ -1,1 +1,36 @@
-<p>group-page works!</p>
+<div class="main-container">
+    <app-nav-bar (onLogout)="goBack()"></app-nav-bar>
+    <!-- Reusing NavBar. onLogout just goes back or can implementation actual logout. 
+         For now, keeping it simple as 'goBack' isn't right for logout, but navigation consistency. 
+         Ideally, logout should logout. 
+    -->
+    <div class="content-area">
+        <app-home-page-header></app-home-page-header>
+
+        <div class="group-page-content">
+            <div class="header-bar">
+                <button (click)="goBack()" class="back-btn">&larr;</button>
+                <h2>{{ groupName }}</h2>
+            </div>
+
+            <div class="transactions-list">
+                <div *ngIf="transactions.length === 0" class="no-transactions">
+                    No transactions yet.
+                </div>
+                <div *ngFor="let tx of transactions" class="transaction-item">
+                    <div class="tx-main">
+                        <span class="tx-description">{{ tx.description || 'No description' }}</span>
+                        <span class="tx-amount">\${{ tx.amount }}</span>
+                    </div>
+                    <div class="tx-sub">
+                        <!-- We might want to resolve user ID to name later -->
+                        <span class="tx-payer">Paid by: {{ tx.paid_by }}</span>
+                        <span class="tx-date">{{ tx.created_date | date }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="fab-add" (click)="goToAddTransaction()">+</button>
+        </div>
+    </div>
+</div>

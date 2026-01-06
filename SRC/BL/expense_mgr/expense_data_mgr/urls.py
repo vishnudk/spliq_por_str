@@ -5,7 +5,9 @@ from .views import (
     TransactionListCreate,
     TransactionRetrieveUpdateDelete,
     ParticipationListCreate,
-    ParticipationRetrieveUpdateDelete
+    ParticipationRetrieveUpdateDelete,
+    GroupTransactions,
+    UserExpenseSummary
 )
 
 urlpatterns = [
@@ -16,4 +18,10 @@ urlpatterns = [
     # Participation CRUD
     path("transactions/<int:tx_id>/participations/", ParticipationListCreate.as_view()),
     path("participations/<int:part_id>/", ParticipationRetrieveUpdateDelete.as_view()),
+
+    # Group Transactions
+    path("transactions/group/<int:group_id>/", GroupTransactions.as_view()),
+    
+    # User Expense Summary
+    path("user/<int:user_id>/", UserExpenseSummary.as_view()),
 ]

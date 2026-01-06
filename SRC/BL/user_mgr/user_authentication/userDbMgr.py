@@ -45,3 +45,10 @@ class userDbMgr:
             self.session.rollback()
             return False
         return True
+
+    def get_all_users(self):
+        users = [
+            {'id': user.id, 'username': user.username, 'password': user.password, 'email': user.userEmail}
+            for user in self.session.query(UserData).all()
+        ]
+        return users

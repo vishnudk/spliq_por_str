@@ -71,12 +71,6 @@ def get_conversations(user_id: int) -> list[UserConversationsListType]:
 
 def get_users(user_id: int) -> list[UserType]:
     from user_authentication.userDbMgr import userDbMgr
-    
-    # Fetch user from DB
-    # We might need a get_user_by_id in userDbMgr or just use existing methods if possible
-    # userDbMgr currently only has get_user_by_username. I should add get_user_by_id first or use a direct query here if I can't modify userDbMgr easily again (which I can).
-    # Let's assume I'll add get_user_by_id to userDbMgr next.
-    
     user_record = userDbMgr().get_user_by_id(user_id)
     
     if user_record:
@@ -91,13 +85,28 @@ def get_users(user_id: int) -> list[UserType]:
         ]
     return []
 
+def get_all_users_in_db() -> list[UserType]:
+    from user_authentication.userDbMgr import userDbMgr
+    user_records = userDbMgr().get_all_users()
+    print(user_records)
+    return [
+        UserType(
+            id=user_record['id'],
+            username=user_record['username'],
+            userEmail=user_record['email'],
+            expenseType=get_expenses(user_record['id']),
+            conversationType=get_conversations(user_record['id'])
+        )
+        for user_record in user_records
+    ]
+
 
 @strawberry.type
 class Query:
     @strawberry.field
     def users(self) -> list[UserType]:
         # Return a list of all users (dummy implementation using multiple IDs)
-        return get_users(1) + get_users(2)
+        return get_all_users_in_db()
     
     @strawberry.field
     def user(self, userId: int) -> Optional[UserType]:
