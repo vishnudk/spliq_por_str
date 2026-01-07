@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,6 +11,10 @@ export class NavBar {
   @Output() onLogout = new EventEmitter<void>();
   isCollapsed = false;
 
+  constructor(
+    private router: Router,
+  ) { }
+
   createGroup() {
     this.onCreateGroup.emit();
   }
@@ -20,5 +25,9 @@ export class NavBar {
 
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  goToHomePage() {
+    this.router.navigate(['home']);
   }
 }

@@ -20,7 +20,7 @@
                 <div *ngFor="let tx of transactions" class="transaction-item">
                     <div class="tx-main">
                         <span class="tx-description">{{ tx.description || 'No description' }}</span>
-                        <span class="tx-amount">\${{ tx.amount }}</span>
+                        <span class="tx-amount" [ngStyle]="{ color: tx.paid_by_color }">${{ tx.amount }}</span>
                     </div>
                     <div class="tx-sub">
                         <!-- We might want to resolve user ID to name later -->

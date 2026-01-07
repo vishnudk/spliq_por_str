@@ -39,7 +39,7 @@ export class SigninPage {
         const formData = new FormData();
         formData.append('username', this.username);
 
-        fetch('http://localhost/userMgrAuth/checkUsername/', {
+        fetch('/userMgr/userMgrAuth/checkUsername/', {
             method: 'POST',
             body: formData
         })
@@ -74,7 +74,7 @@ export class SigninPage {
         formData.append('password', this.password);
         formData.append('email', this.email);
 
-        fetch('http://localhost/userMgrAuth/createUser/', {
+        fetch('/userMgr/userMgrAuth/createUser/', {
             method: 'POST',
             body: formData
         })

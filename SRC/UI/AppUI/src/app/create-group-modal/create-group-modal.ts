@@ -60,7 +60,7 @@ export class CreateGroupModal implements OnInit {
 
         this.loading = true;
         try {
-            const response = await fetch('/groupData/groups/', {
+            const response = await fetch('/groupMgr/groupData/groups/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
