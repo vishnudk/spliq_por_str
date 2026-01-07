@@ -83,7 +83,7 @@ export class AddExpensePage implements OnInit {
   }
 
   fetchGroupUsers() {
-    fetch(`http://localhost:8001/groupData/group/${this.groupId}/users/`)
+    fetch(`/groupMgr/groupData/group/${this.groupId}/users/`)
       .then(response => response.json())
       .then(data => {
         console.log("Going to print member details of the group!");
@@ -139,7 +139,7 @@ export class AddExpensePage implements OnInit {
       participations: participations
     };
 
-    fetch('http://localhost/expenseData/transactions/', {
+    fetch('/expenseMgr/expenseData/transactions/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

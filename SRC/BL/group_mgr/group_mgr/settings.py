@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!ut6c14k$p64iase6&3!+#^fb5p!$iym*)93xdx1(6iva5g-l)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*","group-mgr:8001"]
+ALLOWED_HOSTS = ["*"]
 
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")

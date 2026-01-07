@@ -21,4 +21,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class HomePageHeader {
   showFiller = false;
   @Input() userName = "";
+  toggleCollapse() {
+    // this.isCollapsed = !this.isCollapsed;
+  }
+
 }
