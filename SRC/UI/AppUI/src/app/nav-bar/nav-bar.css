@@ -12,7 +12,7 @@
 }
 
 .nav-container.collapsed {
-  width: 70px;
+  width: 0px;
 }
 
 .toggle-btn {

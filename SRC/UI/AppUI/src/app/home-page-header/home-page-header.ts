@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenu } from '@angular/material/menu';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { NavService } from '../nav.service';
 
 @Component({
   selector: 'app-home-page-header',
@@ -21,8 +22,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class HomePageHeader {
   showFiller = false;
   @Input() userName = "";
+
+  constructor(private navService: NavService) { }
+
   toggleCollapse() {
-    // this.isCollapsed = !this.isCollapsed;
+    this.navService.toggle();
   }
 
 }

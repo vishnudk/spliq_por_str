@@ -91,7 +91,8 @@ WSGI_APPLICATION = 'user_mgr.wsgi.application'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://192.168.1.3",
-    "http://localhost"
+    "http://localhost",
+    "http://28a89126a301.ngrok-free.app:443"
 ]
 
 # Database

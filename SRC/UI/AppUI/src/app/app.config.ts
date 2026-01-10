@@ -18,8 +18,8 @@ import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // Read runtime environment variables from window.env
-const userMgrHost = 'localhost';
-const userMgrPort = '80';
+const userMgrHost = '28a89126a301.ngrok-free.app';
+const userMgrPort = '443';
 
 function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
   const token = 'my-secret-token'; // usually from a service
@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
 
       return {
         link: httpLink.create({
-          uri: `http://${userMgrHost}:${userMgrPort}/userMgr/userData/user_api`,
+          uri: `https://${userMgrHost}/userMgr/userData/user_api`,
         }),
         cache: new InMemoryCache(),
       };

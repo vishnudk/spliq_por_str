@@ -27,12 +27,14 @@ export class LoginPage {
   constructor(private router: Router) { }
   username: string = '';
   password: string = '';
+  loginFailed: boolean = false;
 
   onLogin() {
     const formData = new FormData();
     formData.append('username', this.username);
     formData.append('password', this.password);
 
+    this.loginFailed = false;
     fetch('/userMgr/userMgrAuth/authenticate/', {
       method: 'POST',
       body: formData
@@ -50,10 +52,12 @@ export class LoginPage {
         } else {
           // Handle login failure
           console.log('Login failed:', data.message);
+          this.loginFailed = true;
         }
       })
       .catch((error) => {
         console.error('Error:', error);
+        this.loginFailed = true;
       });
   }
 }
