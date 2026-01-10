@@ -35,6 +35,9 @@
         <a routerLink="/signin">New user? Sign In</a>
 
       </form>
+      @if (loginFailed) {
+      <div class="error-message">logging failed</div>
+      }
     </mat-card-content>
     <mat-card-actions>
       <button matButton="filled" id="login_button" (click)="onLogin()">Login</button>
