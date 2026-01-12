@@ -7,7 +7,8 @@ from .views import (
     ParticipationListCreate,
     ParticipationRetrieveUpdateDelete,
     GroupTransactions,
-    UserExpenseSummary
+    UserExpenseSummary,
+    UserDebtDetails
 )
 
 urlpatterns = [
@@ -23,5 +24,7 @@ urlpatterns = [
     path("transactions/group/<int:group_id>/", GroupTransactions.as_view()),
     
     # User Expense Summary
+    # User Expense Summary
     path("user/<int:user_id>/", UserExpenseSummary.as_view()),
+    path("user/<int:user_id>/details/", UserDebtDetails.as_view()),
 ]
