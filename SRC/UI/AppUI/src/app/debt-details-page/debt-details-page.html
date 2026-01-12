@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Debt Details</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <app-nav-bar></app-nav-bar>
+        <div class="content-area">
+            <app-home-page-header [userName]="userName"></app-home-page-header>
+
+            <div class="debt-list-container" style="padding: 20px;">
+                <h2 style="color: #333;">{{ pageTitle }}</h2>
+
+                <div *ngIf="debtList.length === 0" style="text-align: center; color: #666; margin-top: 20px;">
+                    <h3>No debts found.</h3>
+                </div>
+
+                <div class="debt-item" *ngFor="let item of debtList"
+                    style="background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center;">
+                    <div class="debt-info">
+                        <h3 style="margin: 0; font-size: 1.1em;">{{ item.person_name }}</h3>
+                        <p style="margin: 5px 0 0; color: #666; font-size: 0.9em;">For: {{ item.description }}</p>
+                        <p style="margin: 2px 0 0; color: #888; font-size: 0.8em;">{{ item.date | date }}</p>
+                    </div>
+                    <div class="debt-amount">
+                        <h3 [style.color]="amountColor" style="margin: 0; font-size: 1.2em;">${{ item.amount }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

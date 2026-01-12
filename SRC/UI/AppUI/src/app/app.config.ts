@@ -18,7 +18,7 @@ import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // Read runtime environment variables from window.env
-const userMgrHost = '28a89126a301.ngrok-free.app';
+const userMgrHost = 'localhost';
 const userMgrPort = '443';
 
 function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
 
       return {
         link: httpLink.create({
-          uri: `https://${userMgrHost}/userMgr/userData/user_api`,
+          uri: `http://${userMgrHost}/userMgr/userData/user_api`,
         }),
         cache: new InMemoryCache(),
       };

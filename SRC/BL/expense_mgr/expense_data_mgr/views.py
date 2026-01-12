@@ -154,3 +154,48 @@ class UserExpenseSummary(APIView):
             'total_to_pay': total_to_pay,
             'total_to_receive': total_to_receive
         })
+
+
+class UserDebtDetails(APIView):
+    """Get detailed debt information for a user"""
+    
+    def get(self, request, user_id):
+        db_mgr = TransactionDbManager()
+        
+        # Get all transactions
+        all_transactions = db_mgr.get_all_transactions()
+        
+        debt_details = []
+        
+        for tx in all_transactions:
+            # Get participations for this transaction
+            participations = db_mgr.get_participations_by_tx(tx.id)
+            
+            # If user paid for this transaction
+            if tx.paid_by == user_id:
+                # They should receive money from participants
+                for part in participations:
+                    if part.participant_id != user_id and part.status == 'unpaid':
+                        debt_details.append({
+                            'type': 'OWE_YOU',
+                            'person_id': part.participant_id,
+                            'amount': float(part.owed_amount),
+                            'group_id': tx.group_id,
+                            'description': tx.description,
+                            'date': tx.created_date
+                        })
+            
+            # If user is a participant in this transaction
+            else:
+                for part in participations:
+                    if part.participant_id == user_id and part.status == 'unpaid':
+                        debt_details.append({
+                            'type': 'YOU_OWE',
+                            'person_id': tx.paid_by,
+                            'amount': float(part.owed_amount),
+                            'group_id': tx.group_id,
+                            'description': tx.description,
+                            'date': tx.created_date
+                        })
+                        
+        return Response(debt_details)

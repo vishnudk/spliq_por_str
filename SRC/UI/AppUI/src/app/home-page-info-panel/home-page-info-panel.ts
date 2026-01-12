@@ -1,4 +1,5 @@
 import { Component, INJECTOR, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { UserDataServiceById } from '../app.graphQlService';
 import { GET_USER_EXPENSE_AND_INCOME_WITH_ID } from '../app.query';
@@ -17,7 +18,7 @@ export class HomePageInfoPanel {
     if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
     return null;
   }
-  constructor(private userDataService: UserDataServiceById) {
+  constructor(private userDataService: UserDataServiceById, private router: Router) {
     const userId = this.getCookie('userid');
     if (!userId) {
       console.error('User ID not found in cookies');
@@ -37,8 +38,17 @@ export class HomePageInfoPanel {
         this.youOwe = 0;
       }
 
+
     });
 
+  }
+
+  onGetClick() {
+    this.router.navigate(['/debt-details', 'get']);
+  }
+
+  onOweClick() {
+    this.router.navigate(['/debt-details', 'owe']);
   }
 
 }
