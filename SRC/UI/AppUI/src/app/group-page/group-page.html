@@ -17,7 +17,8 @@
                 <div *ngIf="transactions.length === 0" class="no-transactions">
                     No transactions yet.
                 </div>
-                <div *ngFor="let tx of transactions" class="transaction-item">
+                <div *ngFor="let tx of transactions" class="transaction-item" (click)="goToSettleExpense(tx.id)"
+                    style="cursor: pointer;">
                     <div class="tx-main">
                         <span class="tx-description">{{ tx.description || 'No description' }}</span>
                         <span class="tx-amount" [ngStyle]="{ color: tx.paid_by_color }">${{ tx.amount }}</span>
