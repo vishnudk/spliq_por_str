@@ -99,4 +99,8 @@ export class GroupPage {
   goToAddTransaction() {
     this.router.navigate(['group', this.groupId, 'add-transaction']);
   }
+
+  goToSettleExpense(txId: number) {
+    this.router.navigate(['/settle-expense', txId]);
+  }
 }

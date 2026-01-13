@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Settle Expense</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <app-nav-bar></app-nav-bar>
+        <div class="content-area">
+            <app-home-page-header [userName]="userName"></app-home-page-header>
+
+            <div class="settle-page-content" style="padding: 20px; max-width: 800px; margin: 0 auto;">
+                <h2 style="color: #333; margin-bottom: 20px;">Settle Expense</h2>
+
+                <div class="tx-summary"
+                    style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                    <h3 style="margin-top: 0; font-size: 1.5em; color: #444;">{{ transaction?.description ||
+                        'Loading...' }}</h3>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span style="color: #666;">Total Amount:</span>
+                        <span style="font-weight: bold; font-size: 1.2em;">${{ transaction?.amount }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span style="color: #666;">Paid by:</span>
+                        <span style="font-weight: bold;">{{ payerName }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span style="color: #666;">Date:</span>
+                        <span>{{ transaction?.created_date | date }}</span>
+                    </div>
+                </div>
+
+                <h3 style="color: #555;">Split Details</h3>
+                <div class="participants-list">
+                    <div *ngIf="participations.length === 0" style="text-align: center; color: #888;">
+                        Loading participants...
+                    </div>
+
+                    <div class="participant-item" *ngFor="let part of participations"
+                        style="background: white; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+
+                        <div class="part-info">
+                            <span style="font-weight: 500; font-size: 1.1em; display: block;">{{ part.participant_name
+                                }}</span>
+                            <span [style.color]="part.status === 'paid' ? 'green' : 'red'" style="font-size: 0.9em;">
+                                {{ part.status | titlecase }}
+                            </span>
+                        </div>
+
+                        <div class="part-actions" style="display: flex; align-items: center; gap: 15px;">
+                            <span style="font-weight: bold;">${{ part.owed_amount }}</span>
+
+                            <button
+                                *ngIf="part.status !== 'paid' && (transaction?.paid_by == currentUserID || part.participant_id == currentUserID)"
+                                (click)="settleDebt(part)"
+                                style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 500;">
+                                Settle
+                            </button>
+                            <button *ngIf="part.status === 'paid'" disabled
+                                style="background-color: #cccccc; color: #666; border: none; padding: 8px 16px; border-radius: 4px; cursor: default;">
+                                Paid
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
