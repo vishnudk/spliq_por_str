@@ -27,3 +27,29 @@ All eng and design docs.
   - **Tracing**: OpenTelemetry for distributed request tracing.
 
 
+
+
+Funtional Requirements:
+
+  Login with user credentials
+  Reset password with user credentials
+  Create new user
+
+  Create new group
+  Add users to group
+  Remove users from group
+  
+  Create new transaction
+  Add participants to transaction
+  Remove participants from transaction
+  Settle debt
+
+  notification when new transaction is created to any of the group that you belong to
+  notification when new group is created with you added to it
+
+  live update in group page when new transactions are added.
+  live update in group page when new participants are added.
+
+  
+  
+    
